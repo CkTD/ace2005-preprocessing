@@ -110,7 +110,7 @@ def preprocessing(data_type, files):
             data['golden-event-mentions'] = []
 
             try:
-                nlp_res_raw = nlp.annotate(item['sentence'], properties={'annotators': 'tokenize,ssplit,pos,lemma,parse'})
+                nlp_res_raw = nlp.annotate(item['sentence'], properties={'timeout': '1000000000','annotators': 'tokenize,ssplit,pos,lemma,parse'})
                 nlp_res = json.loads(nlp_res_raw)
             except Exception as e:
                 print('[Warning] StanfordCore Exception: ', nlp_res_raw, 'This sentence will be ignored.')
@@ -221,7 +221,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     test_files, dev_files, train_files = get_data_paths(args.data)
 
-    with StanfordCoreNLP(args.nlp, memory='8g', timeout=990000) as nlp:
+    with StanfordCoreNLP(args.nlp, memory='8g', timeout=1000000000) as nlp:
         # res = nlp.annotate('Donald John Trump is current president of the United States.', properties={'annotators': 'tokenize,ssplit,pos,lemma,parse'})
         # print(res)
         preprocessing('dev', dev_files)
